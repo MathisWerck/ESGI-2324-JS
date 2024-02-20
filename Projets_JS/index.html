@@ -3,14 +3,42 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="main.css">
         <title>B1 ESGI intro JS</title>
     </head>
 
     <body>
-        <h1 id="titre">Projet</h1>
         
-        Bonjour, je suis un paragraphe.
+        <h1 id="titre" class="text">Projet</h1>
 
+        <div class="container">
+            <form id="form">
+                <p class="text1">Voici une calculatrice :</p>
+                <div class="nombre">
+                    Premier nombre <input type="number" id="1" name="1">
+                    <br>
+                    Deuxième nombre <input type="number" id="2" name="2">
+                </div>
+
+                <br>
+
+                <div class="operation">
+                    <button type="button" class="button" id="add">Additionner</button>
+                    <button type="button" class="button" id="sou">Soustraire</button>
+                    <button type="button" class="button" id="mul">Multiplier</button>
+                    <button type="button" class="button" id="div">Diviser</button>
+                    <button type="button" class="button2" id="erase">Effacer</button>
+                </div>
+
+                <br>
+                <br>
+
+                <p class="text1">Le résultat est :</p>
+                <p class="text1" id="result"></p>
+
+            </form>
+
+        </div>
         <script src="index.js"></script>
     </body>
     

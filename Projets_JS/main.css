@@ -1,0 +1,70 @@
+.button{
+    background-color: #246337;
+    border: none;
+    color: white;
+    padding: 7px 20px;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2{
+    background-color: #ee2626;
+    border: none;
+    color: white;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    
+}
+
+.nombre{
+    font-size: 20px;
+    color: #393d3a;
+    font-weight: bold;
+    padding-bottom: 0px;
+    text-align: center;
+}
+
+.text1{
+    font-size: 22px;
+    color: #393d3a; 
+    text-align: center;  
+}
+
+.text{
+    font-size: 30px;
+    color: #393d3a; 
+    text-align: center;  
+}
+
+.container{
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #393d3a;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    width: 50%;
+    margin-left: 25%;
+    
+}
+
+.operation{
+    padding: 20px;
+    margin-bottom: -30px;
+    border: 1px solid #393d3a;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    width: 50%;
+    margin-left: 25%;
+    justify-content: center;
+}
