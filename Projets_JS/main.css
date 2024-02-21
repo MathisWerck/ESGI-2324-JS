@@ -10,6 +10,7 @@
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+    width: 29%
 }
 
 .button2{
@@ -24,6 +25,7 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 10px;
+    width: auto;
     
 }
 
@@ -38,10 +40,10 @@
 .text1{
     font-size: 22px;
     color: #393d3a; 
-    text-align: center;  
+    text-align: center;   
 }
 
-.text{
+.titre{
     font-size: 30px;
     color: #393d3a; 
     text-align: center;  
@@ -53,8 +55,10 @@
     border: 1px solid #393d3a;
     border-radius: 10px;
     background-color: #f2f2f2;
-    width: 50%;
-    margin-left: 25%;
+    width: 25%;
+    margin-left: 37.5%;
+    margin-bottom: 20px;
+    
     
 }
 
@@ -64,7 +68,68 @@
     border: 1px solid #393d3a;
     border-radius: 10px;
     background-color: #f2f2f2;
-    width: 50%;
-    margin-left: 25%;
+    width: 75%;
+    margin-left: 10%;
     justify-content: center;
 }
+
+
+.container2{
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #393d3a;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    width: 30%;
+    position: absolute;
+    margin-left: 35%;
+    padding-bottom: 25px;
+    
+    
+}
+
+.liste{
+    padding: 20px;
+    border: 1px solid #393d3a;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    width: 75%;
+    margin-left: 10%;
+    justify-content: center;
+}
+
+.button3{
+    background-color: #377088;
+    border: none;
+    color: white;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 22%;
+    
+}
+
+.button3 :hover{
+    background-color: #246337;
+}
+
+.text2{
+    font-size: 17px;
+    color: #393d3a; 
+    text-align: center;   
+}
+
+.panier{
+    padding: 10px;
+    margin-bottom: -30px;
+    width: 40%;
+    margin-left: 10%;
+    margin-top: 15px;
+    justify-content: center;
+}
+

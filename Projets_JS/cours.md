@@ -134,6 +134,14 @@ const nomDeLaFonction = () => console.log("Hello");
 () => {}
 ```
 
+## Tableaux
+
+### Introduction aux tableaux
+
+```js
+let fruits = ["pomme", "banane", "fraise"];
+```
+
 
 
 

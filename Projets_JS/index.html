@@ -9,11 +9,11 @@
 
     <body>
         
-        <h1 id="titre" class="text">Projet</h1>
+        <h1 id="titre" class="titre">Projets</h1>
 
         <div class="container">
             <form id="form">
-                <p class="text1">Voici une calculatrice :</p>
+                <h2 class="text1">Calculatrice :</h2>
                 <div class="nombre">
                     Premier nombre <input type="number" id="1" name="1">
                     <br>
@@ -39,6 +39,47 @@
             </form>
 
         </div>
+
+
+        <div class="container2">
+            <h2 class="text1">Liste de courses :</h2>
+            <form id="form2">
+                <div class="liste">
+                    <button type="button" class="button3" id="add2">Pommes</button>
+                    <button type="button" class="button3" id="add3">Poires</button>
+                    <button type="button" class="button3" id="add4">Bananes</button>
+                    <button type="button" class="button3" id="add5">Oranges</button>
+                    <br>
+                    <button type="button" class="button3" id="add6">Raisin</button>
+                    <button type="button" class="button3" id="add7">Fraises</button>
+                    <button type="button" class="button3" id="add8">Cerises</button>
+                    <button type="button" class="button3" id="add9">Pêches</button>
+                    <br>
+                    <button type="button" class="button3" id="add10">Oignons</button>
+                    <button type="button" class="button3" id="add11">Ail</button>
+                    <button type="button" class="button3" id="add12">Carottes</button>
+                    <button type="button" class="button3" id="add13">Tomates</button>
+                    <br>
+                    <button type="button" class="button2" id="erase2">Vider le panier</button>
+                </div>
+                    <p class="text1">Panier :</p>
+                    <table class="panier" id="liste"></table>
+                    <p class="text2">Total : <p class="text2" id="prix"></p>
+                </div>
+            </form>
+            <br>
+            <br>
+            <br>
+
+        </div>
+                <br>
+                <div class="list">
+                    <ul id="list">
+                    </ul>
+                </div>
+        
+        </div>
+    
         <script src="index.js"></script>
     </body>
     
