@@ -83,53 +83,120 @@
     width: 30%;
     position: absolute;
     margin-left: 35%;
-    padding-bottom: 25px;
+    margin-bottom: 10%;
     
     
 }
 
 .liste{
-    padding: 20px;
+    position: absolute;
+    padding: 10px;
+    margin: 10px;
     border: 1px solid #393d3a;
     border-radius: 10px;
-    background-color: #f2f2f2;
-    width: 75%;
-    margin-left: 10%;
+    background-color: #EEE5C4;
+    width: 30%;
+    margin-left: 35%;
+    margin-bottom: 10%;
     justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
 .button3{
-    background-color: #377088;
+    background-color: #b48225;
     border: none;
     color: white;
-    padding: 7px 20px;
+    padding: 5px 12px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 5px ;
     cursor: pointer;
     border-radius: 10px;
-    width: 22%;
-    
-}
-
-.button3 :hover{
-    background-color: #246337;
+    width: 18%;
+    height: 90px;
 }
 
 .text2{
     font-size: 17px;
     color: #393d3a; 
-    text-align: center;   
+    text-align: right; 
+    font-weight: bold; 
+    margin-top: 50px; 
 }
 
 .panier{
     padding: 10px;
-    margin-bottom: -30px;
-    width: 40%;
-    margin-left: 10%;
-    margin-top: 15px;
+    width: 20%;
+    border: 1px solid #393d3a;
+    border-radius: 10px;
+    background-color: #EEE5C4;
+    margin-left: 70%;
+    margin-top: -70px;
+    border-radius: 10px;
+    flex-wrap: wrap;
     justify-content: center;
+    text-align: center;
+    position: absolute;
 }
 
+.icon {
+    width: 35px;
+    height: 35px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.delete-button {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    margin-left: -15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.total-container{
+    display: flex; 
+    justify-content: center; 
+}
+
+.text-prix {
+    font-size: 11px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.button-erase{
+    background-color: #ee2626;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    width: auto;
+    height : 35px;
+    position: flex;
+    margin-top: 40px;
+    margin-left: -350px;
+}
+
+.items{
+    border-radius: 10px;
+    width: 45%;
+    margin-left: 27.5%;
+    margin-bottom: -15px;
+    margin-top: -18px;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}

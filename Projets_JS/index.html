@@ -41,30 +41,33 @@
         </div>
 
 
-        <div class="container2">
-            <h2 class="text1">Liste de courses :</h2>
+        
             <form id="form2">
                 <div class="liste">
-                    <button type="button" class="button3" id="add2">Pommes</button>
-                    <button type="button" class="button3" id="add3">Poires</button>
-                    <button type="button" class="button3" id="add4">Bananes</button>
-                    <button type="button" class="button3" id="add5">Oranges</button>
+                    <h2 class="text1">Liste de courses :</h2>
+                    <button type="button" class="button3" id="add2"><img src="images\apple.png" class="icon" alt="">Pommes <br> <p class="text-prix">(2,20€)</p></button>
+                    <button type="button" class="button3" id="add3"><img src="images\pear.png" class="icon" alt="">Poires <br> <p class="text-prix">(2,14€)</p></button>
+                    <button type="button" class="button3" id="add4"><img src="images\banana.png" class="icon" alt="">Bananes <br> <p class="text-prix">(3,65€)</p></button>
+                    <button type="button" class="button3" id="add5"><img src="images\orange.png" class="icon" alt="">Oranges<br> <p class="text-prix">(2,51€)</p></button>
                     <br>
-                    <button type="button" class="button3" id="add6">Raisin</button>
-                    <button type="button" class="button3" id="add7">Fraises</button>
-                    <button type="button" class="button3" id="add8">Cerises</button>
-                    <button type="button" class="button3" id="add9">Pêches</button>
+                    <button type="button" class="button3" id="add6"><img src="images\grape.png" class="icon" alt="">Raisin <br> <p class="text-prix">(4,25€)</p></button>
+                    <button type="button" class="button3" id="add7"><img src="images\strawberry.png" class="icon" alt="">Fraises <br> <p class="text-prix">(3,64€)</p></button>
+                    <button type="button" class="button3" id="add8"><img src="images\cherry.png" class="icon" alt="">Cerises <br> <p class="text-prix">(4,10€)</p></button>
+                    <button type="button" class="button3" id="add9"><img src="images\peach.png" class="icon" alt="">Pêches <br> <p class="text-prix">(3,31€)</p></button>
                     <br>
-                    <button type="button" class="button3" id="add10">Oignons</button>
-                    <button type="button" class="button3" id="add11">Ail</button>
-                    <button type="button" class="button3" id="add12">Carottes</button>
-                    <button type="button" class="button3" id="add13">Tomates</button>
+                    <button type="button" class="button3" id="add10"><img src="images\onion.png" class="icon" alt="">Oignons <br> <p class="text-prix">(1,23€)</p></button>
+                    <button type="button" class="button3" id="add11"><img src="images\garlic.png" class="icon" alt=""><br>Ail <br> <p class="text-prix">(1,34€)</p></button>
+                    <button type="button" class="button3" id="add12"><img src="images\carrot.png" class="icon" alt="">Carottes <br> <p class="text-prix">(2,27€)</p></button>
+                    <button type="button" class="button3" id="add13"><img src="images\tomato.png" class="icon" alt="">Tomates <br> <p class="text-prix">(1,25€)</p></button>
                     <br>
-                    <button type="button" class="button2" id="erase2">Vider le panier</button>
                 </div>
-                    <p class="text1">Panier :</p>
-                    <table class="panier" id="liste"></table>
-                    <p class="text2">Total : <p class="text2" id="prix"></p>
+                <div class="panier">
+                    <h2 class="text1">Panier :</h2>
+                    <table class="items" id="liste"></table>
+                    <div class="total-container">
+                        <p class="text2">Total : <span id="prix" class="text2">0.00</span><span class="text2">€</span></p>
+                        <button type="button" class="button-erase" id="erase2">Vider le panier</button>
+                    </div>
                 </div>
             </form>
             <br>
