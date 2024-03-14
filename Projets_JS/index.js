@@ -626,55 +626,68 @@ console.log(btnDelete);
 
 
 // API STAR WARS
-  
-fetch("https://swapi.dev/api/films/1/")
-.then(response => response.json())
-.then(response => console.log(response))
-.catch(err => console.error(err));
 
 document.addEventListener("DOMContentLoaded", () => {
     const filmsListElement = document.getElementById("films-list");
     const filmDetailsElement = document.getElementById("film-details");
+
     // Fonction pour afficher la liste des films
     function afficherListeFilms() {
-    fetch("https://swapi.dev/api/films/")
-    .then((response) => response.json())
-    .then((data) => {
-    data.results.forEach((film) => {
-    const li = document.createElement("li");
-    li.textContent = film.title;
-    li.style.cursor = "pointer";
-    li.addEventListener("click", () =>
-   afficherDetailsFilm(film.url));
-    filmsListElement.appendChild(li);
-    });
-    })
-    .catch((error) =>
-    console.error("Erreur lors de la récupération des films :", error)
-    );
+        fetch("https://swapi.dev/api/films/")
+            .then(response => response.json())
+            .then(data => {
+                data.results.forEach(film => {
+                    const li = document.createElement("li");
+                    li.textContent = film.title;
+                    li.style.cursor = "pointer";
+                    li.addEventListener("click", () => afficherDetailsFilm(film.url));
+                    filmsListElement.appendChild(li);
+                });
+            })
+            .catch(error => console.error("Erreur lors de la récupération des films :", error));
     }
-    
+
+    // Fonction pour récupérer les noms des personnages à partir de leurs liens
+    function fetchCharacterNames(characterLinks) {
+        const characters = characterLinks.map(link => {
+            return fetch(link)
+                .then(response => response.json())
+                .then(character => character.name)
+                .catch(error => {
+                    console.error("Erreur lors de la récupération du nom du personnage :", error);
+                    return null;
+                });
+        });
+        return Promise.all(characters);
+    }
+
     // Fonction pour afficher les détails d'un film sélectionné
     function afficherDetailsFilm(url) {
-    fetch(url)
-    .then((response) => response.json())
-    .then((film) => {
-    filmDetailsElement.innerHTML = `
-    <h2>${film.title}</h2>
-    <p><strong>Date de sortie :</strong>
-   ${film.release_date}</p>
-    <p><strong>Réalisateur :</strong> ${film.director}</p>
-    <p><strong>Producteurs :</strong> ${film.producer}</p>
-    <p class="resume"><strong>Résumé :</strong> ${film.opening_crawl}</p>
-    `;
-    })
-    .catch((error) =>
-    console.error(
-    "Erreur lors de la récupération des détails du film :",
-    error
-    )
-    );
+        fetch(url)
+            .then(response => response.json())
+            .then(film => {
+                fetchCharacterNames(film.characters)
+                    .then(characterNames => {
+                        filmDetailsElement.innerHTML = `
+                            <h2>${film.title}</h2>
+                            <p><strong>Date de sortie :</strong> ${film.release_date}</p>
+                            <p><strong>Réalisateur :</strong> ${film.director}</p>
+                            <p><strong>Producteurs :</strong> ${film.producer}</p>
+                            <p class="resume"><strong>Résumé :</strong> ${film.opening_crawl}</p>
+                            <p><strong>Personnages :</strong> ${characterNames.join(', ')}</p>
+                        `;
+                    })
+                    .catch(error => console.error("Erreur lors de la récupération des noms des personnages :", error));
+            })
+            .catch(error => console.error("Erreur lors de la récupération des détails du film :", error));
     }
+
+    // Appel pour afficher la liste des films au chargement de la page
     afficherListeFilms();
-   });
+});
+
+
+console.log(filmsListElement);
+console.log(filmDetailsElement);
+
    

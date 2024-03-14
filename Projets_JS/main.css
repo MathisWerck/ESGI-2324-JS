@@ -40,16 +40,19 @@
 .text1{
     font-size: 22px;
     color: #393d3a; 
-    text-align: center;   
+    text-align: center;
+    margin: 10px;
 }
 
 .titre{
     font-size: 30px;
     color: #393d3a; 
-    text-align: center;  
+    text-align: center; 
+    margin-bottom: 50px; 
 }
 
 .container{
+    position: absolute;
     padding: 10px;
     margin: 10px;
     border: 1px solid #393d3a;
@@ -57,9 +60,7 @@
     background-color: #f2f2f2;
     width: 25%;
     margin-left: 37.5%;
-    margin-bottom: 20px;
-    
-    
+    margin-top: 410px; 
 }
 
 .operation{
@@ -83,9 +84,7 @@
     width: 30%;
     position: absolute;
     margin-left: 35%;
-    margin-bottom: 10%;
-    
-    
+    margin-bottom: 10%;   
 }
 
 .liste{
@@ -97,7 +96,6 @@
     background-color: #EEE5C4;
     width: 30%;
     margin-left: 35%;
-    margin-bottom: 10%;
     justify-content: center;
     flex-wrap: wrap;
     text-align: center;
@@ -129,12 +127,12 @@
 
 .panier{
     padding: 10px;
+    margin: 10px;
     width: 20%;
     border: 1px solid #393d3a;
     border-radius: 10px;
     background-color: #EEE5C4;
-    margin-left: 70%;
-    margin-top: -70px;
+    margin-left: 67%;
     border-radius: 10px;
     flex-wrap: wrap;
     justify-content: center;
@@ -209,23 +207,24 @@
 }
 
 .film-list{
-    margin-left: -15px;
+    margin-left: 30%;
     width: 30%;
-    margin-bottom: 10%;
     text-align: center;
     justify-content: center;
     flex: wrap;
 }
 
 .film{
+    padding: 10px;
+    margin: 10px;
+    margin-top: -77px;
     border: 1px solid #393d3a;
     border-radius: 10px;
     background-color: #f2f2f2;
-    width: 40%;
+    width: 32.5%;
     text-align: center;
     position: absolute;
-    margin-left: 30%;
-    margin-top: 18%;
+    
 
 }
 
