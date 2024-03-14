@@ -647,7 +647,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(error => console.error("Erreur lors de la récupération des films :", error));
     }
 
-    // Fonction pour récupérer les noms des personnages à partir de leurs liens
+    // Fonction pour récupérer les noms des personnages
     function fetchCharacterNames(characterLinks) {
         const characters = characterLinks.map(link => {
             return fetch(link)
@@ -661,6 +661,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return Promise.all(characters);
     }
 
+    // Fonciton pour récupérer les noms des planètes
+    function fetchPlanetNames(planetLinks) {
+        const planets = planetLinks.map(link => {
+            return fetch(link)
+                .then(response => response.json())
+                .then(planet => planet.name)
+                .catch(error => {
+                    console.error("Erreur lors de la récupération du nom de la planète :", error);
+                    return null;
+                });
+        });
+        return Promise.all(planets);
+    }
+
     // Fonction pour afficher les détails d'un film sélectionné
     function afficherDetailsFilm(url) {
         fetch(url)
@@ -668,6 +682,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(film => {
                 fetchCharacterNames(film.characters)
                     .then(characterNames => {
+                fetchPlanetNames(film.planets)
+                    .then(planetNames => {
                         filmDetailsElement.innerHTML = `
                             <h2>${film.title}</h2>
                             <p><strong>Date de sortie :</strong> ${film.release_date}</p>
@@ -675,8 +691,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             <p><strong>Producteurs :</strong> ${film.producer}</p>
                             <p class="resume"><strong>Résumé :</strong> ${film.opening_crawl}</p>
                             <p><strong>Personnages :</strong> ${characterNames.join(', ')}</p>
+                            <p><strong>Planètes :</strong> ${planetNames.join(', ')}</p>
                         `;
-                    })
+                    })})
                     .catch(error => console.error("Erreur lors de la récupération des noms des personnages :", error));
             })
             .catch(error => console.error("Erreur lors de la récupération des détails du film :", error));
