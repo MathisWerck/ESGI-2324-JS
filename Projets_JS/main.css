@@ -214,6 +214,21 @@
     flex: wrap;
 }
 
+.film-button{
+    border: none;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+}
+
+.film-button:hover{
+    text-decoration: underline;
+}
+
 .film{
     padding: 10px;
     margin: 10px;
@@ -232,3 +247,11 @@
     margin-left: 15px;
     margin-right: 15px;
 }
+
+.table-container {
+    margin-left: 10%; 
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;  
+}
+

@@ -638,6 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 data.results.forEach(film => {
                     const li = document.createElement("li");
+                    li.classList.add("film-button");
                     li.textContent = film.title;
                     li.style.cursor = "pointer";
                     li.addEventListener("click", () => afficherDetailsFilm(film.url));
@@ -678,26 +679,45 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fonction pour afficher les détails d'un film sélectionné
     function afficherDetailsFilm(url) {
         fetch(url)
-            .then(response => response.json())
-            .then(film => {
-                fetchCharacterNames(film.characters)
-                    .then(characterNames => {
-                fetchPlanetNames(film.planets)
-                    .then(planetNames => {
-                        filmDetailsElement.innerHTML = `
-                            <h2>${film.title}</h2>
-                            <p><strong>Date de sortie :</strong> ${film.release_date}</p>
-                            <p><strong>Réalisateur :</strong> ${film.director}</p>
-                            <p><strong>Producteurs :</strong> ${film.producer}</p>
-                            <p class="resume"><strong>Résumé :</strong> ${film.opening_crawl}</p>
-                            <p><strong>Personnages :</strong> ${characterNames.join(', ')}</p>
-                            <p><strong>Planètes :</strong> ${planetNames.join(', ')}</p>
-                        `;
-                    })})
-                    .catch(error => console.error("Erreur lors de la récupération des noms des personnages :", error));
+          .then(response => response.json())
+          .then(film => {
+            Promise.all([
+              fetchCharacterNames(film.characters),
+              fetchPlanetNames(film.planets)
+            ])
+            .then(([characterNames, planetNames]) => {
+              const charactersPerRow = 4;
+              const characterRows = [];
+              for (let i = 0; i < characterNames.length; i += charactersPerRow) {
+                characterRows.push(characterNames.slice(i, i + charactersPerRow));
+              }
+              
+              const characterTableRows = characterRows.map(row => {
+                const cells = row.map(name => `<td>${name}</td>`).join('');
+                return `<tr>${cells}</tr>`;
+              }).join('');
+      
+              filmDetailsElement.innerHTML = `
+                <h2>${film.title}</h2>
+                <p><strong>Date de sortie :</strong> ${film.release_date}</p>
+                <p><strong>Réalisateur :</strong> ${film.director}</p>
+                <p><strong>Producteurs :</strong> ${film.producer}</p>
+                <p class="resume"><strong>Résumé :</strong> ${film.opening_crawl}</p>
+                <p><strong>Personnages :</strong></p>
+                <div class="table-container">
+                    <table id="characters-table" class="characters-table">
+                    <tbody>
+                        ${characterTableRows}
+                    </tbody>
+                    </table>
+                </div>
+                <p><strong>Planètes :</strong> ${planetNames.join(', ')}</p>
+                `;
             })
-            .catch(error => console.error("Erreur lors de la récupération des détails du film :", error));
-    }
+            .catch(error => console.error("Erreur lors de la récupération des détails :", error));
+          })
+          .catch(error => console.error("Erreur lors de la récupération des détails du film :", error));
+      }
 
     // Appel pour afficher la liste des films au chargement de la page
     afficherListeFilms();
