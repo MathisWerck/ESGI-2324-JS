@@ -1,0 +1,46 @@
+.titre {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 25px;
+}
+
+/*Style barre de recherche*/
+.search-pokemon {
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 30%;
+    border: #000000;
+}
+
+
+/* Style liste carte Pokémon */
+.card-icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-list{
+    border: 1px solid #969494;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px;
+}
+
+.card-title{
+    margin-top: 5px;
+    text-align: center;
+}
+
+.card-text{
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}

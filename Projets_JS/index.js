@@ -662,8 +662,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return Promise.all(characters);
     }
 
-    // Fonciton pour récupérer les noms des planètes
-    function fetchPlanetNames(planetLinks) {
+    // Fonction pour récupérer les noms des planètes
+    function fetchPlanetNames(planetLinks) {    
         const planets = planetLinks.map(link => {
             return fetch(link)
                 .then(response => response.json())
