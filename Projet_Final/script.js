@@ -1,14 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
     const pokemonListElement = document.getElementById("pokemonList");
-    const detailedPokemonCard = document.getElementById("detailedPokemonCard");
+    let typesHtml = "";
 
+    let pokemonList = []; // Déclaration de la variable pour stocker les noms de Pokémon
+
+    // Lier l'API de Pokémon au code
     function getPokemonData() {
         return new Promise((resolve, reject) => {
             fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
                 .then(response => response.json())
                 .then(data => {
-                    const pokemonList = data.results;
-                    const promises = pokemonList.map(pokemon => {
+                    const pokemonListData = data.results; // Obtenir la liste des noms de Pokémon
+                    pokemonList = pokemonListData.map(pokemon => pokemon.name); // Extraire les noms de la liste
+                    const promises = pokemonListData.map(pokemon => {
                         return fetchPokemonDetails(pokemon.url);
                     });
                     Promise.all(promises)
@@ -19,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Récupérer les détails des Pokémon
     function fetchPokemonDetails(url) {
         return new Promise((resolve, reject) => {
             fetch(url)
@@ -29,7 +34,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         name: capitalizeFirstLetter(data.name),
                         height: formatHeight(data.height),
                         weight: formatWeight(data.weight),
-                        types: data.types.map(type => type.type.name).join(", ") // Format the types as a string
+                        types: data.types.map(type => capitalizeFirstLetter(type.type.name)).join(", "), // Format the types as a string
+                        pv: data.stats[0].base_stat,
                     };
                     resolve(pokemon);
                 })
@@ -37,40 +43,135 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    // Fait en sorte que la première lettre soit en majuscule
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    // Formater la taille des Pokémon
     function formatHeight(height) {
         return (height / 10).toFixed(1) + "m";
     }
 
+    // Formater le poids des Pokémon
     function formatWeight(weight) {
         return (weight / 10).toFixed(1) + "kg";
     }
 
+    
+
+    // Afficher les cartes des Pokémon
     function displayPokemonCards(pokemonDetails) {
         const container = document.createElement("div");
-
+    
+        // Créer une carte pour chaque Pokémon
         pokemonDetails.forEach(pokemon => {
             const pokemonCard = document.createElement("button");
             pokemonCard.classList.add("pokemon-card");
+    
+            // Séparer les types en cas de plusieurs types
+            const types = pokemon.types.split(", "); 
 
-            const types = pokemon.types.split(", "); // Séparer les types en cas de plusieurs types
-        
-            const typesHtml = types.map(type => `<span class="type ${type}">${type}</span>`).join(", "); // Créer des balises <span> pour chaque type
+            typesHtml = types.map(type => `<span class="type-box ${getTypeColor(type)}">${typeFrench(type)}</span>`).join("");
 
+            // Définir la couleur en fonction des types
+            function getTypeColor(type) {
+                switch (type) {
+                    case "Fire":
+                        return "fire";
+                    case "Water":
+                        return "water";
+                    case "Grass":
+                        return "grass";
+                    case "Electric":
+                        return "electric";
+                    case "Poison":
+                        return "poison";
+                    case "Bug":
+                        return "bug";
+                    case "Ground":
+                        return "ground";
+                    case "Fairy":
+                        return "fairy";
+                    case "Normal":
+                        return "normal";
+                    case "Fighting":
+                        return "fighting";
+                    case "Psychic":
+                        return "psychic";
+                    case "Rock":
+                        return "rock";
+                    case "Ghost":
+                        return "ghost";
+                    case "Ice":
+                        return "ice";
+                    case "Dragon":
+                        return "dragon";
+                    case "Dark":
+                        return "dark";
+                    case "Steel":
+                        return "steel";
+                    case "Flying":
+                        return "flying";
+                }
+            }
+
+            function typeFrench(type){
+                switch (type) {
+                    case "Fire":
+                        return "Feu";
+                    case "Water":
+                        return "Eau";
+                    case "Grass":
+                        return "Plante";
+                    case "Electric":
+                        return "Electrik";
+                    case "Poison":
+                        return "Poison";
+                    case "Bug":
+                        return "Insecte";
+                    case "Ground":
+                        return "Sol";
+                    case "Fairy":
+                        return "Fée";
+                    case "Normal":
+                        return "Normal";
+                    case "Fighting":
+                        return "Combat";
+                    case "Psychic":
+                        return "Psy";
+                    case "Rock":
+                        return "Roche";
+                    case "Ghost":
+                        return "Spectre";
+                    case "Ice":
+                        return "Glace";
+                    case "Dragon":
+                        return "Dragon";
+                    case "Dark":
+                        return "Ténèbres";
+                    case "Steel":
+                        return "Acier";
+                    case "Flying":
+                        return "Vol";
+                }
+            }
+
+            // Texte à afficher dans les cartes Pokémon
             pokemonCard.innerHTML = `
-                <p class="card-id"><strong>ID :</strong> ${pokemon.id}</p>
-                <img class="pokemon-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
+                <div class="id-pv-container">
+                    <p class="card-id">N°${pokemon.id}</p>
+                    <p class="card-pv">${pokemon.pv ? `PV: ${pokemon.pv}` : ''}</p>
+                </div>
                 <h3 class="card-title">${pokemon.name}</h3>
+                <img class="pokemon-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
                 <p class="card-text"><strong>Taille :</strong> ${pokemon.height}</p>
                 <p class="card-text"><strong>Poids :</strong> ${pokemon.weight}</p>
-                <p class="card-text"><strong>Type :</strong> ${typesHtml}</p>
+                <p class="type"> ${typesHtml}</p>
             `;
 
-            pokemonCard.addEventListener("click", () => {
-                // Action à effectuer lorsqu'un Pokémon est cliqué 
+            // Afficher la carte détaillée lorsqu'un Pokémon est cliqué
+            pokemonCard.addEventListener("click", () => { 
                 showDetailedCard(pokemon);
                 console.log(`${pokemon.name} a été cliqué !`);
             });
@@ -79,31 +180,157 @@ document.addEventListener("DOMContentLoaded", function() {
 
         pokemonListElement.appendChild(container);
     }
+
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", function() {
+        const searchValue = this.value.toLowerCase(); // Convertir en minuscules pour correspondre aux noms de Pokémon
+        const pokemonCards = document.querySelectorAll(".pokemon-card");
+
+        pokemonCards.forEach(card => {
+            const pokemonName = card.querySelector(".card-title").textContent.toLowerCase();
+            if (pokemonName.startsWith(searchValue)) {
+                card.classList.remove("hidden"); // Afficher la carte si le nom correspond à la recherche
+            } else {
+                card.classList.add("hidden"); // Masquer la carte sinon
+            }
+        });
+    });
     
+    // Afficher la carte détaillée du Pokémon (lorsqu'une carte Pokémon est cliqué)
     function showDetailedCard(pokemon) {
-        const detailedPokemonCard = document.getElementById("showDetailedCard");
-        
-    
-        // Affiche la carte détaillée
+        const detailedPokemonCard = document.getElementById("detailedPokemonCard");
+
+        // Affiche la carte détaillée en ajoutant une classe pour la montrer
+        detailedPokemonCard.classList.add("show-detailed-card");
+        detailedPokemonCard.classList.add("hide-detailed-card");
         detailedPokemonCard.style.display = "block";
-    
+        document.body.classList.add("no-scroll");
+
+        window.addEventListener("scroll", () => {
+            const detailedPokemonCard = document.getElementById("detailedPokemonCard");
+        
+            // Si l'encadré est affiché, recalculer sa position lors du défilement
+            if (detailedPokemonCard.style.display === "block") {
+                detailedPokemonCard.style.top = `${window.innerHeight / 2 + window.scrollY}px`;
+            }
+        });
+        
+        const types = pokemon.types.split(", "); 
+
+        typesHtml = types.map(type => `<span class="type-box ${getTypeColor(type)}">${typeFrench(type)}</span>`).join("");
+
+        function getTypeColor(type) {
+            switch (type) {
+                case "Fire":
+                    return "fire";
+                case "Water":
+                    return "water";
+                case "Grass":
+                    return "grass";
+                case "Electric":
+                    return "electric";
+                case "Poison":
+                    return "poison";
+                case "Bug":
+                    return "bug";
+                case "Ground":
+                    return "ground";
+                case "Fairy":
+                    return "fairy";
+                case "Normal":
+                    return "normal";
+                case "Fighting":
+                    return "fighting";
+                case "Psychic":
+                    return "psychic";
+                case "Rock":
+                    return "rock";
+                case "Ghost":
+                    return "ghost";
+                case "Ice":
+                    return "ice";
+                case "Dragon":
+                    return "dragon";
+                case "Dark":
+                    return "dark";
+                case "Steel":
+                    return "steel";
+                case "Flying":
+                    return "flying";
+            }
+        }
+
+        function typeFrench(type){
+            switch (type) {
+                case "Fire":
+                    return "Feu";
+                case "Water":
+                    return "Eau";
+                case "Grass":
+                    return "Plante";
+                case "Electric":
+                    return "Electrik";
+                case "Poison":
+                    return "Poison";
+                case "Bug":
+                    return "Insecte";
+                case "Ground":
+                    return "Sol";
+                case "Fairy":
+                    return "Fée";
+                case "Normal":
+                    return "Normal";
+                case "Fighting":
+                    return "Combat";
+                case "Psychic":
+                    return "Psy";
+                case "Rock":
+                    return "Roche";
+                case "Ghost":
+                    return "Spectre";
+                case "Ice":
+                    return "Glace";
+                case "Dragon":
+                    return "Dragon";
+                case "Dark":
+                    return "Ténèbres";
+                case "Steel":
+                    return "Acier";
+                case "Flying":
+                    return "Vol";
+            }
+        }
+
         // Met à jour les détails du Pokémon dans la carte détaillée
         detailedPokemonCard.innerHTML = `
-            <img class="pokemon-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokemon.id}.png" alt="${pokemon.name}" />
-            <h3 class="card-title">${pokemon.name}</h3>
-            <p class="pokemon-id">ID: ${pokemon.id}</p>
-            <p class="pokemon-height"><strong>Height:</strong> ${pokemon.height}</p>
-            <p class="pokemon-weight"><strong>Weight:</strong> ${pokemon.weight}</p>
-            <p class="pokemon-types"><strong>Types:</strong> ${pokemon.types}</p>
+        <button class="close-btn" id="hideDetailedCard">Fermer</button>
+        <p class="card-id-hidden">N°${pokemon.id}</p>
+        <h3 class="card-title-hidden">${pokemon.name}</h3>
+        <div class="pokemon-details-hidden">
+            <div class="pokemon-img-container-hidden">
+                <img class="pokemon-img-hidden" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
+            </div>
+            <div class="pokemon-info-hidden">
+                <p class="card-text-hidden"><strong>Taille :</strong> ${pokemon.height}</p>
+                <p class="card-text-hidden"><strong>Poids :</strong> ${pokemon.weight}</p>
+            </div>
+        </div>
+        <p class="type-hidden"> ${typesHtml}</p>
         `;
-    }
 
-    function hideDetailedCard() {
-        const detailedPokemonCard = document.getElementById("detailedPokemonCard");
-        detailedPokemonCard.style.display = "none";
-    }
+        const closeButton = detailedPokemonCard.querySelector("hideDetailedCard");
+        closeButton.addEventListener("click", () => {
+            hideDetailedCard();
+            console.log(`${pokemon.name} a été fermé !`);
+        });
     
+        // Affiche le texte lorsque vous cliquez sur une carte Pokémon
+        document.getElementById("pokemonClickedText").innerText = `Vous avez cliqué sur ${pokemon.name}`;
 
+    }
+
+    
+    // Fermer la carte détaillée lorsqu'on clique sur le bouton "Fermer"
     getPokemonData()
         .then(pokemonDetails => {
             displayPokemonCards(pokemonDetails);

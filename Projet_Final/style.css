@@ -50,47 +50,79 @@ input[type=text]:focus {
     margin-bottom: 10px;
     font-size: 25px;
 }
+datalist {
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 5px; /* Coins arrondis */
+    max-height: 200px; /* Hauteur maximale */
+    overflow-y: auto; /* Activation du défilement vertical si nécessaire */
+    background-color: white; /* Fond blanc */
+}
+
+/* Style des options du menu déroulant */
+datalist option {
+    padding: 5px; /* Espacement intérieur */
+    cursor: pointer; /* Curseur en main au survol */
+}
+
+/* Style des options sélectionnées */
+datalist option:checked {
+    background-color: #f0f0f0; /* Fond gris clair pour l'option sélectionnée */
+}
 
 
 
-
-/* Style liste Pokémon */
+/* Style cartes Pokémon */
 .pokemonDiv {
     display: block;
     margin: 0 auto;
     justify-content: center;
     width: 92.3%;
+    text-align: center;
 }
 .pokemon-card {
+    display: inline-block;
     border: 1px solid #4b4b4b;
     border-radius: 5%;
     padding: 10px;
     margin: 5px;
     margin-bottom: 15px;
-    width: 185px; 
+    width: 250px; 
     box-sizing: border-box;
+    box-shadow:  5px 5px 10px #000000;
     text-align: center;
     background-color: #f7eedf;
-    cursor: pointer; /* Change le curseur au survol */
+    cursor: pointer; 
+}
+.pokemon-card.hidden {
+    display: none; /* Pour cacher les cartes  */
 }
 .pokemon-card:hover {
-    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+    transform: scale(1.03); 
+    transition: transform 0.2s;
+    filter: brightness(0.9);
 }
 .pokemon-img {
-    max-width: 100%;
+    width: auto;
     height: auto;
 }
 .card-title {
     text-align: center;
-    margin-bottom: 5px;
+    margin-top: -12px;
 }
 .card-text {
     margin-bottom: 3px;
     width: 100%;
+    font-size: 15px;
 }
 .card-id {
-    font-size: 11px;
-    margin-bottom: 5px;
+    font-size: 13px;
+}
+.card-pv{
+    font-size: 13px; 
+}
+.id-pv-container {
+    display: flex;
+    justify-content: space-between; /* Pour espacer les éléments */
 }
 
 
@@ -98,80 +130,136 @@ input[type=text]:focus {
 
 /* Styles spécifiques aux types de Pokémon */
 .type{
-    font-weight : bold;
+    font-weight: bold;
+    margin-top: 25px;
 }
 .fire {
-    color: red; /* Texte en rouge pour le type Fire */
+    background-color: #fd7d24; 
 }
 .poison {
-    color: purple; /* Texte en violet pour le type Poison */
+    background-color: #b97fc9; 
 }
 .water {
-    color: blue; /* Texte en bleu pour le type Water */
+    background-color: #4592c4; 
 }
 .grass {
-    color: green; /* Texte en vert pour le type Grass */
+    background-color: #9bcc50; 
 }
 .electric {
-    color: rgb(184, 184, 0); /* Texte en jaune pour le type Electric */
+    background-color: #eed535; 
 }
 .ice {
-    color: #00dede; /* Texte en cyan pour le type Ice */
+    background-color: #51c4e7; 
 }
 .fighting {
-    color: #800000; /* Texte en marron pour le type Fighting */
+    background-color: #d56723; 
 }
 .psychic {
-    color: #ff00ff; /* Texte en rose pour le type Psychic */
+    background-color: #f366b9; 
 }
 .flying {
-    color: #808080; /* Texte en gris pour le type Flying */
+    background: linear-gradient(155deg, #3dc7ef 50%, #bdb9b8 50%); 
 }
 .bug {
-    color: #008000; /* Texte en vert foncé pour le type Bug */
+    background-color: #729f3f;
 }
 .rock {
-    color: #a52a2a; /* Texte en marron foncé pour le type Rock */
+    background-color: #a38c21; 
 }
 .ghost {
-    color: #4b0082; /* Texte en indigo pour le type Ghost */
+    background-color: #7b62a3; 
 }
 .dragon {
-    color: #00b97c; /* Texte en bleu foncé pour le type Dragon */
+    background: linear-gradient(155deg, #53a4cf 50%, #f16e57 50%);; 
 }
 .dark {
-    color: #000000; /* Texte en noir pour le type Dark */
+    background-color: #707070; 
 }
 .steel {
-    color: #c0c0c0; /* Texte en argent pour le type Steel */
+    background-color: #9eb7b8; 
 }
 .fairy {
-    color: #ff69b4; /* Texte en rose clair pour le type Fairy */
+    background-color: #fdb9e9; 
 }
 .normal {
-    color: #8b4513; /* Texte en brun pour le type Normal */
+    background-color: #a4acaf; 
 }
 .ground {
-    color: #deb887; /* Texte en brun clair pour le type Ground */
+    background: linear-gradient(155deg, #f7de3f 50%, #ab9842 50%);   
 }
 .ghost {
-    color: #4b0082; /* Texte en indigo pour le type Ghost */
+    background-color: #4b0082; 
 }
-
-
+.type-box {
+    display: inline-block;
+    padding: 3px 8px;
+    margin-right: 5px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: white;
+}
 
 
 /* Style de la carte Onclick*/
-.detailedPokemonCard {
-    border: 1px solid #4b4b4b;
-    border-radius: 5%;
-    padding: 10px;
-    margin: 5px;
-    margin-bottom: 15px;
-    width: 300px; 
-    box-sizing: border-box;
-    text-align: center;
+.show-detailed-card {
+    display: block;
+    position: absolute;
+    width : 30%;
+    height : 65%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Pour s'assurer qu'elle est au premier plan */
+    border: 2px solid black;
+    padding: 20px;
     background-color: #f7eedf;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.pokemon-card.hidden {
+    display: none; /* Pour cacher les cartes  */
+}
+.pokemon-img-hidden {
+    display: block; 
+    margin-left: 20%; 
+    margin-top: 10%;
+    margin-bottom: 15%;
+    transform: scale(1.8);
+}
+.card-title-hidden {
+    text-align: center;
+    margin-top: -12px;
+}
+.card-text-hidden {
+    margin-bottom: 3px;
+    width: 100%;
+    font-size: 15px;
+}
+.card-id-hidden {
+    font-size: 20px;
+    text-align: center;
+}
+.card-pv-hidden{
+    font-size: 20px; 
+}
+.id-pv-container-hidden {
+    display: flex;
+    justify-content: space-between; /* Pour espacer les éléments */
+}
+.pokemon-details-hidden {
+    display: flex;
+    align-items: center;
+}
+
+.pokemon-img-container-hidden {
+    flex: 1; /* Prend autant d'espace que possible */
+}
+.pokemon-info-hidden {
+    flex: 1; /* Prend autant d'espace que possible */
+    padding-left: 20px; /* Espacement entre l'image et les détails */
+}
+.hide-detailed-card {
+    display: none;
 }
 
 
