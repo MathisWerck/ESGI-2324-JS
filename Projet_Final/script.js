@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .catch(error => reject(error));
         });
+
     }
 
     // Récupérer les détails des Pokémon
@@ -202,13 +203,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Affiche la carte détaillée en ajoutant une classe pour la montrer
         detailedPokemonCard.classList.add("show-detailed-card");
-        detailedPokemonCard.classList.add("hide-detailed-card");
+        detailedPokemonCard.classList.add("close-btn");
         detailedPokemonCard.style.display = "block";
         document.body.classList.add("no-scroll");
 
-        window.addEventListener("scroll", () => {
-            const detailedPokemonCard = document.getElementById("detailedPokemonCard");
-        
+        window.addEventListener("scroll", () => {        
             // Si l'encadré est affiché, recalculer sa position lors du défilement
             if (detailedPokemonCard.style.display === "block") {
                 detailedPokemonCard.style.top = `${window.innerHeight / 2 + window.scrollY}px`;
@@ -303,30 +302,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Met à jour les détails du Pokémon dans la carte détaillée
         detailedPokemonCard.innerHTML = `
-        <button class="close-btn" id="hideDetailedCard">Fermer</button>
-        <p class="card-id-hidden">N°${pokemon.id}</p>
-        <h3 class="card-title-hidden">${pokemon.name}</h3>
+        <div class="pokemon-titre-container-hidden">
+            <button class="closeButton" id="closeButton"><img class="closeButton-icon" src="images/close.png"></button>
+            <div class="id-pv-container-hidden">
+                <p class="card-id-hidden">N°${pokemon.id}</p>
+                <h3 class="card-title-hidden">${pokemon.name}</h3>
+            </div>
+        </div>
         <div class="pokemon-details-hidden">
             <div class="pokemon-img-container-hidden">
                 <img class="pokemon-img-hidden" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
-            </div>
-            <div class="pokemon-info-hidden">
-                <p class="card-text-hidden"><strong>Taille :</strong> ${pokemon.height}</p>
-                <p class="card-text-hidden"><strong>Poids :</strong> ${pokemon.weight}</p>
-            </div>
+            </div>    
         </div>
+        
+        <div class="pokemon-info-hidden">
+            <p class="card-text-hidden"><strong>Taille :</strong> ${pokemon.height}</p>
+            <p class="card-text-hidden"><strong>Poids :</strong> ${pokemon.weight}</p>
+        </div>
+
         <p class="type-hidden"> ${typesHtml}</p>
         `;
 
-        const closeButton = detailedPokemonCard.querySelector("hideDetailedCard");
-        closeButton.addEventListener("click", () => {
-            hideDetailedCard();
-            console.log(`${pokemon.name} a été fermé !`);
+        document.getElementById("closeButton").addEventListener("click", function() {
+            detailedPokemonCard.classList.remove("show-detailed-card");
+            detailedPokemonCard.style.display = "none";
+            document.body.classList.remove("no-scroll");
         });
-    
-        // Affiche le texte lorsque vous cliquez sur une carte Pokémon
-        document.getElementById("pokemonClickedText").innerText = `Vous avez cliqué sur ${pokemon.name}`;
-
     }
 
     
