@@ -16,16 +16,6 @@
     margin-right: auto;
     margin-top: 3%;
 }
-.pokeball{
-    width: 8%;
-    height: 8%;
-    display: flex;
-    margin-left: auto;
-    margin-left: 55%;
-    margin-top: -6%;
-    position: relative;
-    z-index: -1;
-}
 
 
 
