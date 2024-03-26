@@ -28,25 +28,52 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-
-
-
-
     // Récupérer les détails des Pokémon
     function fetchPokemonDetails(url) {
         return new Promise((resolve, reject) => {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    const pokemon = {
-                        id: data.id,
-                        name: capitalizeFirstLetter(data.name),
-                        height: formatHeight(data.height),
-                        weight: formatWeight(data.weight),
-                        types: data.types.map(type => capitalizeFirstLetter(type.type.name)).join(", "), // Format the types as a string
-                        pv: data.stats[0].base_stat,
-                    };
-                    resolve(pokemon);
+                    const pokemonSpeciesUrl = data.species.url; // URL de l'espèce Pokémon
+                    fetch(pokemonSpeciesUrl) // Fetch des détails de l'espèce Pokémon
+                        .then(response => response.json())
+                        .then(speciesData => {
+                            const id = data.id;
+                            const name = capitalizeFirstLetter(data.name);
+                            const height = formatHeight(data.height);
+                            const weight = formatWeight(data.weight);
+                            const types = data.types.map(type => capitalizeFirstLetter(type.type.name)).join(", ");
+                            const description = speciesData.flavor_text_entries.find(entry => entry.language.name === 'fr').flavor_text;
+                            const nameFr = speciesData.names.find(entry => entry.language.name === 'fr').name;
+                            const evolutionChain = speciesData.evolves_from_species ? capitalizeFirstLetter(speciesData.evolves_from_species.name) : "Aucun"; // Vérifie si le Pokémon a une évolution
+                            const habitat = capitalizeFirstLetter(speciesData.habitat ? speciesData.habitat.name : "Inconnu"); // Vérifie si le Pokémon a un habitat
+                            const pv = data.stats[0].base_stat;
+                            const attaque = data.stats[1].base_stat;
+                            const defense = data.stats[2].base_stat;
+                            const specialAttack = data.stats[3].base_stat;
+                            const specialDefense = data.stats[4].base_stat;
+                            const speed = data.stats[5].base_stat;
+
+                            const pokemon = {
+                                id: id,
+                                nameFr: capitalizeFirstLetter(nameFr), 
+                                name: name,
+                                height: height,
+                                weight: weight,
+                                types: types,
+                                description: description,
+                                evolutionChain: evolutionChain,
+                                habitat: habitat,
+                                pv: pv,
+                                attaque: attaque, 
+                                defense: defense,
+                                speciale_attaque: specialAttack, 
+                                speciale_defence: specialDefense, 
+                                vitesse: speed
+                            };
+                            resolve(pokemon);
+                        })
+                        .catch(error => reject(error));
                 })
                 .catch(error => reject(error));
         });
@@ -81,49 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Séparer les types en cas de plusieurs types
             const types = pokemon.types.split(", "); 
 
-            typesHtml = types.map(type => `<span class="type-box ${getTypeColor(type)}">${typeFrench(type)}</span>`).join("");
-
-            // Définir la couleur en fonction des types
-            function getTypeColor(type) {
-                switch (type) {
-                    case "Fire":
-                        return "fire";
-                    case "Water":
-                        return "water";
-                    case "Grass":
-                        return "grass";
-                    case "Electric":
-                        return "electric";
-                    case "Poison":
-                        return "poison";
-                    case "Bug":
-                        return "bug";
-                    case "Ground":
-                        return "ground";
-                    case "Fairy":
-                        return "fairy";
-                    case "Normal":
-                        return "normal";
-                    case "Fighting":
-                        return "fighting";
-                    case "Psychic":
-                        return "psychic";
-                    case "Rock":
-                        return "rock";
-                    case "Ghost":
-                        return "ghost";
-                    case "Ice":
-                        return "ice";
-                    case "Dragon":
-                        return "dragon";
-                    case "Dark":
-                        return "dark";
-                    case "Steel":
-                        return "steel";
-                    case "Flying":
-                        return "flying";
-                }
-            }
+            typesHtml = types.map(type => `<span class="type-box ${typeFrench(type)}">${typeFrench(type)}</span>`).join("");
 
             function typeFrench(type){
                 switch (type) {
@@ -134,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     case "Grass":
                         return "Plante";
                     case "Electric":
-                        return "Electrik";
+                        return "Electric";
                     case "Poison":
                         return "Poison";
                     case "Bug":
@@ -172,7 +157,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p class="card-id">N°${pokemon.id}</p>
                     <p class="card-pv">${pokemon.pv ? `PV: ${pokemon.pv}` : ''}</p>
                 </div>
-                <h3 class="card-title">${pokemon.name}</h3>
+                <h3 class="card-title">${pokemon.nameFr}</h3>
+                <p class="card-title2">(${pokemon.name})</p>
                 <img class="pokemon-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
                 <p class="card-text"><strong>Taille :</strong> ${pokemon.height}</p>
                 <p class="card-text"><strong>Poids :</strong> ${pokemon.weight}</p>
@@ -190,18 +176,18 @@ document.addEventListener("DOMContentLoaded", function() {
         pokemonListElement.appendChild(container);
     }
 
-    const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("input", function() {
-        const searchValue = this.value.toLowerCase(); // Convertir en minuscules pour correspondre aux noms de Pokémon
+        const searchValue = this.value.trim().toLowerCase(); // Convertir en minuscules pour correspondre aux noms de Pokémon
         const pokemonCards = document.querySelectorAll(".pokemon-card");
-
+    
         pokemonCards.forEach(card => {
-            const pokemonName = card.querySelector(".card-title").textContent.toLowerCase();
+            const pokemonName = card.querySelector(".card-title2").textContent.trim().toLowerCase();
+            const pokemoneNameFr = card.querySelector(".card-title").textContent.trim().toLowerCase();
             const pokemonId = card.querySelector(".card-id").textContent;
-            if (pokemonName.startsWith(searchValue)) {
-                card.classList.remove("hidden"); // Afficher la carte si le nom correspond à la recherche
-            }else if (pokemonId.includes(searchValue)) {
-                card.classList.remove("hidden"); // Afficher la carte si le numéro correspond à la recherche
+            if (pokemonName.startsWith(searchValue) ||
+                pokemoneNameFr.startsWith(searchValue) ||
+                pokemonId === searchValue) {
+                card.classList.remove("hidden"); // Afficher la carte si le nom, le nom français ou l'ID correspond à la recherche
             } else {
                 card.classList.add("hidden"); // Masquer la carte sinon
             }
@@ -227,48 +213,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         const types = pokemon.types.split(", "); 
 
-        typesHtml = types.map(type => `<span class="type-box ${getTypeColor(type)}">${typeFrench(type)}</span>`).join("");
-
-        function getTypeColor(type) {
-            switch (type) {
-                case "Fire":
-                    return "fire";
-                case "Water":
-                    return "water";
-                case "Grass":
-                    return "grass";
-                case "Electric":
-                    return "electric";
-                case "Poison":
-                    return "poison";
-                case "Bug":
-                    return "bug";
-                case "Ground":
-                    return "ground";
-                case "Fairy":
-                    return "fairy";
-                case "Normal":
-                    return "normal";
-                case "Fighting":
-                    return "fighting";
-                case "Psychic":
-                    return "psychic";
-                case "Rock":
-                    return "rock";
-                case "Ghost":
-                    return "ghost";
-                case "Ice":
-                    return "ice";
-                case "Dragon":
-                    return "dragon";
-                case "Dark":
-                    return "dark";
-                case "Steel":
-                    return "steel";
-                case "Flying":
-                    return "flying";
-            }
-        }
+        typesHtml = types.map(type => `<span class="type-box-hidden ${typeFrench(type)}">${typeFrench(type)}</span>`).join("");
 
         function typeFrench(type){
             switch (type) {
@@ -279,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 case "Grass":
                     return "Plante";
                 case "Electric":
-                    return "Electrik";
+                    return "Electric";
                 case "Poison":
                     return "Poison";
                 case "Bug":
@@ -317,21 +262,52 @@ document.addEventListener("DOMContentLoaded", function() {
             <button class="closeButton" id="closeButton"><img class="closeButton-icon" src="images/close.png"></button>
             <div class="id-pv-container-hidden">
                 <p class="card-id-hidden">N°${pokemon.id}</p>
-                <h3 class="card-title-hidden">${pokemon.name}</h3>
+                <h3 class="card-title-hidden">${pokemon.nameFr}</h3>
+                <p class="card-title2-hidden">(${pokemon.name})</p>
             </div>
         </div>
         <div class="pokemon-details-hidden">
             <div class="pokemon-img-container-hidden">
                 <img class="pokemon-img-hidden" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
-            </div>  
-        </div>
+            </div>
+            <div class="pokemon-description-hidden">
+                <p class="card-description-hidden">${pokemon.description}</p>
+            </div>
+        </div>        
         <div class="pokemon-info-hidden">
-        
-        <div class="pokemon-info-hidden">
-            <p class="card-text-hidden"><strong>Taille :</strong> ${pokemon.height}</p>
-            <p class="card-text-hidden"><strong>Poids :</strong> ${pokemon.weight}</p>
+            <div class="stat-container">
+                <p class="stat-title">Statistiques :</p>
+                <p class="stat">PV : ${pokemon.pv}</p>
+                <p class="stat">Attaque : ${pokemon.attaque}</p>
+                <p class="stat">Défense : ${pokemon.defense}</p>
+                <p class="stat">Attaque Spéciale : ${pokemon.speciale_attaque}</p>
+                <p class="stat">Défense Spéciale : ${pokemon.speciale_defence}</p>
+                <p class="stat">Vitesse : ${pokemon.vitesse}</p>
+            </div>
+            <div class="infos-container">
+                <p class="infos-titre"><strong>Infos :</strong></p>
+                <div class="infos">
+                    <div class="infos1">
+                        <p class="card-text-hidden"><strong>Taille :</strong></p>
+                        <p class="card-text-hidden">${pokemon.height}</p>
+                    </div>
+                    <div class="infos2">
+                        <p class="card-text-hidden"><strong>Poids :</strong></p>
+                        <p class="card-text-hidden">${pokemon.weight}</p>
+                    </div>
+                </div>
+                <div class="infos">
+                    <div class="infos1">
+                        <p class="card-text-hidden"><strong>Habitat :</strong></p>
+                        <p class="card-text-hidden">${pokemon.habitat}</p>
+                    </div>
+                    <div class="infos2">
+                        <p class="card-text-hidden"><strong>Évolution de :</strong></p>
+                        <p class="card-text-hidden">${pokemon.evolutionChain}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <p class="type-hidden"> ${typesHtml}</p>
         `;
 
