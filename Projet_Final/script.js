@@ -4,10 +4,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let pokemonList = []; // Déclaration de la variable pour stocker les noms de Pokémon
 
+
+    const pokemon = "https://pokeapi.co/api/v2/pokemon?limit=151"; // L'API de Pokémon pour obtenir les noms de Pokémon
+    const description = "https://pokeapi.co/api/v2/pokemon-species/"; // L'API de Pokémon pour obtenir les descriptions de Pokémon
+
     // Lier l'API de Pokémon au code
     function getPokemonData() {
         return new Promise((resolve, reject) => {
-            fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+            fetch(pokemon)
                 .then(response => response.json())
                 .then(data => {
                     const pokemonListData = data.results; // Obtenir la liste des noms de Pokémon
@@ -21,8 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .catch(error => reject(error));
         });
-
     }
+
+
+
+
+
 
     // Récupérer les détails des Pokémon
     function fetchPokemonDetails(url) {
@@ -189,8 +197,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         pokemonCards.forEach(card => {
             const pokemonName = card.querySelector(".card-title").textContent.toLowerCase();
+            const pokemonId = card.querySelector(".card-id").textContent;
             if (pokemonName.startsWith(searchValue)) {
                 card.classList.remove("hidden"); // Afficher la carte si le nom correspond à la recherche
+            }else if (pokemonId.includes(searchValue)) {
+                card.classList.remove("hidden"); // Afficher la carte si le numéro correspond à la recherche
             } else {
                 card.classList.add("hidden"); // Masquer la carte sinon
             }
@@ -200,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Afficher la carte détaillée du Pokémon (lorsqu'une carte Pokémon est cliqué)
     function showDetailedCard(pokemon) {
         const detailedPokemonCard = document.getElementById("detailedPokemonCard");
-
+        console.log('pokemon: ', pokemon);
         // Affiche la carte détaillée en ajoutant une classe pour la montrer
         detailedPokemonCard.classList.add("show-detailed-card");
         detailedPokemonCard.classList.add("close-btn");
@@ -312,8 +323,9 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="pokemon-details-hidden">
             <div class="pokemon-img-container-hidden">
                 <img class="pokemon-img-hidden" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
-            </div>    
+            </div>  
         </div>
+        <div class="pokemon-info-hidden">
         
         <div class="pokemon-info-hidden">
             <p class="card-text-hidden"><strong>Taille :</strong> ${pokemon.height}</p>
@@ -330,6 +342,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+
+   
     
     // Fermer la carte détaillée lorsqu'on clique sur le bouton "Fermer"
     getPokemonData()
@@ -340,3 +354,5 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("An error occurred while fetching Pokémon data:", error);
         });
 });
+
+
