@@ -1,5 +1,26 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    const scrollTopButton = document.getElementById("scrollTopButton");
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" // Animation de défilement fluide
+        });
+    }
+    scrollTopButton.addEventListener("click", scrollToTop);
+    
+    const scrollDownButton = document.querySelector(".scroll-down-button");
+    scrollDownButton.addEventListener("click", function() {
+        window.scrollBy({
+            top: 760,
+            behavior: "smooth" // Fait défiler la page de manière fluide
+        });
+    });
+
+
+
     const pokemonListElement = document.getElementById("pokemonList");
+
     let typesHtml = "";
 
     let pokemonList = []; // Déclaration de la variable pour stocker les noms de Pokémon
@@ -154,11 +175,11 @@ document.addEventListener("DOMContentLoaded", function() {
             // Texte à afficher dans les cartes Pokémon
             pokemonCard.innerHTML = `
                 <div class="id-pv-container">
-                    <p class="card-id">N°${pokemon.id}</p>
+                    <p class="card-id">${pokemon.id}</p>
                     <p class="card-pv">${pokemon.pv ? `PV: ${pokemon.pv}` : ''}</p>
                 </div>
-                <h3 class="card-title">${pokemon.nameFr}</h3>
-                <p class="card-title2">(${pokemon.name})</p>
+                <h3 id="card-title" class="card-title">${pokemon.nameFr}</h3>
+                <p class="card-title2">${pokemon.name}</p>
                 <img class="pokemon-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${pokemon.name}" />
                 <p class="card-text"><strong>Taille :</strong> ${pokemon.height}</p>
                 <p class="card-text"><strong>Poids :</strong> ${pokemon.weight}</p>
@@ -181,13 +202,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const pokemonCards = document.querySelectorAll(".pokemon-card");
     
         pokemonCards.forEach(card => {
-            const pokemonName = card.querySelector(".card-title2").textContent.trim().toLowerCase();
-            const pokemoneNameFr = card.querySelector(".card-title").textContent.trim().toLowerCase();
+            const pokemonName = card.querySelector(".card-title").textContent.trim().toLowerCase();
+            const pokemonNameFr = card.querySelector(".card-title2").textContent.trim().toLowerCase();
             const pokemonId = card.querySelector(".card-id").textContent;
-            if (pokemonName.startsWith(searchValue) ||
-                pokemoneNameFr.startsWith(searchValue) ||
-                pokemonId === searchValue) {
-                card.classList.remove("hidden"); // Afficher la carte si le nom, le nom français ou l'ID correspond à la recherche
+    
+            if (pokemonName.startsWith(searchValue) || pokemonNameFr.startsWith(searchValue) || pokemonId === searchValue) {
+                card.classList.remove("hidden");
             } else {
                 card.classList.add("hidden"); // Masquer la carte sinon
             }

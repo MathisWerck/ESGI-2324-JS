@@ -4,6 +4,54 @@
     background-color: #ffe3b3; 
 }
 
+/* Boutons remonter en haut et descendre */
+.scroll-top-button {
+    position: fixed;
+    bottom: 70px;
+    right: 40px;
+    width: 70px;
+    height: 70px;
+    background: none;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 999; 
+}
+/* Style au survol */
+.scroll-top-button:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}
+.top-arrow{
+    display: block;
+    margin: auto;
+    width: 75%;
+    height: 75%;
+}
+.scroll-down-button {
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+    width: 70px;
+    height: 70px;
+    background: none;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 999; 
+}
+/* Style au survol */
+.scroll-down-button:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}
+.down-arrow{
+    display: block;
+    margin: auto;
+    width: 75%;
+    height: 75%;
+}
+
 
 
 
